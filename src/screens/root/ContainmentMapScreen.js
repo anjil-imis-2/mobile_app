@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
+import SecureWMSTile from "../../components/mapcomponent/SecureWMSTile";
 import { joinWmsUrl } from "../../utils/wmsUrl";
 import { Alert, StyleSheet, View } from "react-native";
 import React, { useRef, useEffect, useState } from "react";
-import MapView, { Marker, PROVIDER_GOOGLE, WMSTile } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 
 import { INITIAL_LOCATION } from "../../core/constants/map";
 
@@ -186,7 +187,7 @@ const BuildingMapScreen = ({ navigation }) => {
         )}
 
         {showWmsLink && (
-          <WMSTile
+          <SecureWMSTile
             urlTemplate={wmslinks}
             zIndex={1}
             opacity={0.5}
@@ -195,7 +196,7 @@ const BuildingMapScreen = ({ navigation }) => {
         )}
 
         {roadWms && (
-          <WMSTile
+          <SecureWMSTile
             urlTemplate={roadWmsLink}
             zIndex={1}
             opacity={0.5}
@@ -203,7 +204,7 @@ const BuildingMapScreen = ({ navigation }) => {
           />
         )}
         {wardWms && (
-          <WMSTile
+          <SecureWMSTile
             urlTemplate={wardWmsLink}
             zIndex={1}
             opacity={0.5}

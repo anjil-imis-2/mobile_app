@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
+import SecureWMSTile from "../../components/mapcomponent/SecureWMSTile";
 import { joinWmsUrl } from "../../utils/wmsUrl";
 import { Alert, Platform, StyleSheet, View } from "react-native";
-import { Marker, WMSTile } from "react-native-maps";
+import { Marker } from "react-native-maps";
 import { FAB, Text } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch, useSelector } from "react-redux";
@@ -545,7 +546,7 @@ const SewageMapScreen = ({ navigation }) => {
           />
         )} */}
             {showWmsLink && (
-              <WMSTile
+              <SecureWMSTile
                 urlTemplate={wmslinks}
                 zIndex={1}
                 opacity={0.5}
@@ -553,7 +554,7 @@ const SewageMapScreen = ({ navigation }) => {
               />
             )}
             {roadWms && (
-              <WMSTile
+              <SecureWMSTile
                 urlTemplate={roadWmsLink}
                 zIndex={1}
                 opacity={0.5}
@@ -561,7 +562,7 @@ const SewageMapScreen = ({ navigation }) => {
               />
             )}
             {wardWms && (
-              <WMSTile
+              <SecureWMSTile
                 urlTemplate={wardWmsLink}
                 zIndex={1}
                 opacity={0.5}
@@ -569,7 +570,7 @@ const SewageMapScreen = ({ navigation }) => {
               />
             )}
             {sewerWMS && (
-              <WMSTile
+              <SecureWMSTile
                 urlTemplate={sewerWMSLink}
                 zIndex={1}
                 opacity={0.5}

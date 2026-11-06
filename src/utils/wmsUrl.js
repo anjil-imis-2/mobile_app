@@ -14,6 +14,18 @@ export function joinWmsUrl(baseUrl, path) {
 }
 
 /**
+ * Points a WMS link at the API's tile proxy (GET api/gis/wms). GeoServer needs a
+ * server-side auth key, so tiles must go through the proxy with the user's token.
+ * Only the query is kept, whichever base the API returned for the link.
+ * Returns "" when the link has no query.
+ */
+export function wmsProxyUrl(apiBaseUrl, link) {
+  if (!link || typeof link !== 'string' || !link.includes('?')) return '';
+  const query = link.slice(link.indexOf('?') + 1);
+  return `${apiBaseUrl.replace(/\/+$/, '')}/gis/wms?${query}`;
+}
+
+/**
  * Transforms a WMS URL from the API into a format compatible with
  * react-native-maps WMSTile component.
  *

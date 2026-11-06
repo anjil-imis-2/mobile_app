@@ -21,7 +21,7 @@ import {
   Text,
   useTheme,
 } from "react-native-paper";
-import { Marker, Polygon, WMSTile } from "react-native-maps";
+import { Marker, Polygon } from "react-native-maps";
 import IonIcon from "react-native-vector-icons/Ionicons";
 import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import BottomSheet, {
@@ -31,6 +31,7 @@ import BottomSheet, {
 } from "@gorhom/bottom-sheet";
 
 import { COLORS } from "../../core/theme";
+import SecureWMSTile from "../../components/mapcomponent/SecureWMSTile";
 import { formatWmsUrl, joinWmsUrl } from "../../utils/wmsUrl";
 import { getCurrentLocation } from "../../helpers/location";
 import {
@@ -704,7 +705,7 @@ const ANFLocateBuildingScreen = ({ navigation, route }) => {
 
             {/* WMS Layers */}
             {showWmsLink && wmslinks && (
-              <WMSTile
+              <SecureWMSTile
                 urlTemplate={wmslinks}
                 zIndex={1}
                 opacity={0.5}
@@ -715,7 +716,7 @@ const ANFLocateBuildingScreen = ({ navigation, route }) => {
               />
             )}
             {roadWms && roadWmsLink && (
-              <WMSTile
+              <SecureWMSTile
                 urlTemplate={roadWmsLink}
                 zIndex={2}
                 opacity={0.5}
@@ -726,7 +727,7 @@ const ANFLocateBuildingScreen = ({ navigation, route }) => {
               />
             )}
             {wardWms && wardWmsLink && (
-              <WMSTile
+              <SecureWMSTile
                 urlTemplate={wardWmsLink}
                 zIndex={3}
                 opacity={0.5}
@@ -737,7 +738,7 @@ const ANFLocateBuildingScreen = ({ navigation, route }) => {
               />
             )}
             {containmentWms && containmentWmsLink && (
-              <WMSTile
+              <SecureWMSTile
                 urlTemplate={containmentWmsLink}
                 zIndex={4}
                 opacity={0.8}

@@ -86,6 +86,7 @@
   },
   "packageManager": "yarn@3.6.4",
   "resolutions": {
-    "react-native-blob-util@^0.19.6": "patch:react-native-blob-util@npm%3A0.19.11#./.yarn/patches/react-native-blob-util-npm-0.19.11-988dba80de.patch"
+    "react-native-blob-util@^0.19.6": "patch:react-native-blob-util@npm%3A0.19.11#./.yarn/patches/react-native-blob-util-npm-0.19.11-988dba80de.patch",
+    "react-native-maps@1.20.0": "patch:react-native-maps@npm%3A1.20.0#./.yarn/patches/react-native-maps-npm-1.20.0-1e1a71b149.patch"
   }
 }
