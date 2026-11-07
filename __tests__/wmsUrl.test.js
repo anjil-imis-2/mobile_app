@@ -1,5 +1,5 @@
 import { describe, expect, it } from "@jest/globals";
-import { joinWmsUrl } from "../src/utils/wmsUrl";
+import { joinWmsUrl, wmsProxyUrl } from "../src/utils/wmsUrl";
 
 describe("joinWmsUrl", () => {
   const link = "wms?SERVICE=WMS&LAYERS=imis_base%3Abuildings_layer";
@@ -23,5 +23,26 @@ describe("joinWmsUrl", () => {
   it("returns an empty string when a part is missing", () => {
     expect(joinWmsUrl("https://gs.example", undefined)).toBe("");
     expect(joinWmsUrl(undefined, link)).toBe("");
+  });
+});
+
+describe("wmsProxyUrl", () => {
+  const api = "https://imis.example/api";
+  const query = "SERVICE=WMS&LAYERS=imis_base%3Abuildings_layer&BBOX={minX},{minY},{maxX},{maxY}";
+
+  it("sends a direct GeoServer link through the API proxy, keeping the tile placeholders", () => {
+    expect(wmsProxyUrl(api, `https://gs.example/geoserver/ws/wms?${query}`)).toBe(
+      `${api}/gis/wms?${query}`
+    );
+  });
+
+  it("does not double the path when the backend already returns the proxy", () => {
+    expect(wmsProxyUrl(`${api}/`, `${api}/gis/wms/wms?${query}`)).toBe(`${api}/gis/wms?${query}`);
+  });
+
+  it("returns an empty string for a missing link or one without a query", () => {
+    expect(wmsProxyUrl(api, "")).toBe("");
+    expect(wmsProxyUrl(api, undefined)).toBe("");
+    expect(wmsProxyUrl(api, "https://gs.example/wms")).toBe("");
   });
 });

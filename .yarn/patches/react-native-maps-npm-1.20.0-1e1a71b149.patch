@@ -1,0 +1,73 @@
+diff --git a/android/src/main/java/com/rnmaps/maps/MapTileProvider.java b/android/src/main/java/com/rnmaps/maps/MapTileProvider.java
+index a974311c25523a77e8fe1b2aece01601d8273842..5c942d23d5962e8e4b3a444239eab93ecef1b5af 100644
+--- a/android/src/main/java/com/rnmaps/maps/MapTileProvider.java
++++ b/android/src/main/java/com/rnmaps/maps/MapTileProvider.java
+@@ -344,6 +344,10 @@ public class MapTileProvider implements TileProvider {
+ 		}
+ 	}
+ 
++	protected String getAuthHeader() {
++		return null;
++	}
++
+ 	byte[] fetchTile(int x, int y, int zoom) {
+ 		URL url = getTileUrl(x, y, zoom);
+ 		ByteArrayOutputStream buffer = null;
+@@ -351,6 +355,10 @@ public class MapTileProvider implements TileProvider {
+ 
+ 		try {
+ 			URLConnection conn = url.openConnection();
++			String authHeader = getAuthHeader();
++			if (authHeader != null) {
++				conn.setRequestProperty("Authorization", authHeader);
++			}
+ 			in = conn.getInputStream();
+ 			buffer = new ByteArrayOutputStream();
+ 
+diff --git a/android/src/main/java/com/rnmaps/maps/MapWMSTile.java b/android/src/main/java/com/rnmaps/maps/MapWMSTile.java
+index b455b523f17aa6ee8c84345d536222ee26df0df2..3ccb1fcfd03587b7ff29aea41b96ce77ea9af00a 100644
+--- a/android/src/main/java/com/rnmaps/maps/MapWMSTile.java
++++ b/android/src/main/java/com/rnmaps/maps/MapWMSTile.java
+@@ -12,6 +12,14 @@ public class MapWMSTile extends MapUrlTile {
+   private static final double[] mapBound = {-20037508.34789244, 20037508.34789244};
+   private static final double FULL = 20037508.34789244 * 2;
+ 
++  private String authHeader;
++
++  public void setAuthHeader(String authHeader) {
++    this.authHeader = authHeader;
++    // Only the custom provider's fetchTile() can send a request header
++    setCustomTileProviderMode();
++  }
++
+   class AIRMapGSUrlTileProvider extends MapTileProvider {
+ 
+     class AIRMapWMSTileProvider extends UrlTileProvider {
+@@ -74,6 +82,11 @@ public class MapWMSTile extends MapUrlTile {
+         tileCachePath, tileCacheMaxAge, offlineMode, context, customMode);
+       this.tileProvider = new AIRMapWMSTileProvider(tileSizet, tileSizet, urlTemplate);
+     }
++
++    @Override
++    protected String getAuthHeader() {
++      return MapWMSTile.this.authHeader;
++    }
+   }
+ 
+   public MapWMSTile(Context context) {
+diff --git a/android/src/main/java/com/rnmaps/maps/MapWMSTileManager.java b/android/src/main/java/com/rnmaps/maps/MapWMSTileManager.java
+index 38071ca589f5d9957fa4e6c10d220fffb1a55622..ab1485a240b65320c272d77040748e5cf0149496 100644
+--- a/android/src/main/java/com/rnmaps/maps/MapWMSTileManager.java
++++ b/android/src/main/java/com/rnmaps/maps/MapWMSTileManager.java
+@@ -34,6 +34,11 @@ public class MapWMSTileManager extends ViewGroupManager<MapWMSTile> {
+     view.setUrlTemplate(urlTemplate);
+   }
+ 
++  @ReactProp(name = "authHeader")
++  public void setAuthHeader(MapWMSTile view, String authHeader) {
++    view.setAuthHeader(authHeader);
++  }
++
+   @ReactProp(name = "zIndex", defaultFloat = -1.0f)
+   public void setZIndex(MapWMSTile view, float zIndex) {
+     view.setZIndex(zIndex);

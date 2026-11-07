@@ -1,4 +1,5 @@
 import { FAB, Text } from "react-native-paper";
+import SecureWMSTile from "../../components/mapcomponent/SecureWMSTile";
 import { joinWmsUrl } from "../../utils/wmsUrl";
 import colors from "../../core/theme/colors";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,7 +12,7 @@ import {
   View,
 } from "react-native";
 import React, { useRef, useEffect, useState, useCallback } from "react";
-import { Marker, Polygon, WMSTile } from "react-native-maps";
+import { Marker, Polygon } from "react-native-maps";
 import IonIcon from "react-native-vector-icons/Ionicons";
 import { getDistance } from "geolib";
 
@@ -366,7 +367,7 @@ const BuildingMapScreen = () => {
               </>
             )}
             {showWmsLink && wmslinks && (
-              <WMSTile
+              <SecureWMSTile
                 urlTemplate={wmslinks}
                 zIndex={1}
                 opacity={0.5}
@@ -374,7 +375,7 @@ const BuildingMapScreen = () => {
               />
             )}
             {roadWms && roadWmsLink && (
-              <WMSTile
+              <SecureWMSTile
                 urlTemplate={roadWmsLink}
                 zIndex={1}
                 opacity={0.5}
@@ -382,7 +383,7 @@ const BuildingMapScreen = () => {
               />
             )}
             {wardWms && wardWmsLink && (
-              <WMSTile
+              <SecureWMSTile
                 urlTemplate={wardWmsLink}
                 zIndex={1}
                 opacity={0.5}

@@ -1,10 +1,11 @@
 import React, { useRef, useEffect, useState } from "react";
+import SecureWMSTile from "../../components/mapcomponent/SecureWMSTile";
 import { joinWmsUrl } from "../../utils/wmsUrl";
 import { Alert, StyleSheet, View } from "react-native";
 import { INITIAL_LOCATION } from "../../core/constants/map";
 
 import { useDispatch, useSelector } from "react-redux";
-import MapView, { Polygon, PROVIDER_GOOGLE, WMSTile } from "react-native-maps";
+import MapView, { Polygon, PROVIDER_GOOGLE } from "react-native-maps";
 import { COLORS } from "../../core/theme";
 import {
   getBuildingWmslink,
@@ -163,7 +164,7 @@ const KmlViewerMapScreen = ({ route, navigation }) => {
               />
             )}
             {showWmsLink && (
-              <WMSTile
+              <SecureWMSTile
                 urlTemplate={wmsLink}
                 zIndex={1}
                 opacity={0.5}
@@ -171,7 +172,7 @@ const KmlViewerMapScreen = ({ route, navigation }) => {
               />
             )}
             {roadWms && (
-              <WMSTile
+              <SecureWMSTile
                 urlTemplate={roadWmsLink}
                 zIndex={1}
                 opacity={0.5}
@@ -179,7 +180,7 @@ const KmlViewerMapScreen = ({ route, navigation }) => {
               />
             )}
             {wardWms && (
-              <WMSTile
+              <SecureWMSTile
                 urlTemplate={wardWmsLink}
                 zIndex={1}
                 opacity={0.5}

@@ -1338,7 +1338,10 @@ export default function ApplicationFormScreen({ navigation, route }) {
     }
   };
 
-  const RenderForm = ({ field }) => {
+  // The helpers below are plain render functions, not components. A component
+  // declared in here gets a new identity on every render, so React would remount
+  // every input, and close the keyboard, each time `errors` changes.
+  const renderForm = (field) => {
     const disabled = "disabled" in field ? field?.disabled : false;
     return (
       <View key={field.name}>
@@ -1445,7 +1448,7 @@ export default function ApplicationFormScreen({ navigation, route }) {
     );
   };
 
-  const RenderField = ({ field }) => {
+  const renderField = (field) => {
     const type = field.input_type;
     // console.log("select", field, options);
     const validation =
@@ -1521,7 +1524,7 @@ export default function ApplicationFormScreen({ navigation, route }) {
       }
     }
 
-    const Field = () => {
+    const renderFieldBody = () => {
       return (
         <>
           {/* <Text>{JSON.stringify(hasShowWhen)}</Text> */}
@@ -1549,7 +1552,7 @@ export default function ApplicationFormScreen({ navigation, route }) {
                       </Text>
                       {/* {value?.includes(selected[name]) &&
                     !eValue?.includes(selected[eName]) ? ( */}
-                      <RenderForm key={field?.name} field={field} />
+                      {renderForm(field)}
                       {/* ) : (
                       <></>
                     )} */}
@@ -1568,7 +1571,7 @@ export default function ApplicationFormScreen({ navigation, route }) {
                           <Text style={{ color: "red" }}>*</Text>
                         ) : null}
                       </Text>
-                      <RenderForm key={field?.name} field={field} />
+                      {renderForm(field)}
                     </>
                   ) : (
                     <></>
@@ -1583,7 +1586,7 @@ export default function ApplicationFormScreen({ navigation, route }) {
                       {field.name} exclude if "{eName}"" is "{selected[eName]}""
                       == "{eValue}"
                     </Text> */}
-                      <RenderForm key={field?.name} field={field} />
+                      {renderForm(field)}
                     </>
                   ) : (
                     <></>
@@ -1623,7 +1626,7 @@ export default function ApplicationFormScreen({ navigation, route }) {
                         </Text>
                       </>
                     )}
-                    <RenderForm key={field?.name} field={field} />
+                    {renderForm(field)}
                   </>
                 ) : (
                   <>
@@ -1643,7 +1646,7 @@ export default function ApplicationFormScreen({ navigation, route }) {
                     ) : null}
                   </Text>
                   {renderForm(field)} */}
-                    <RenderForm key={field?.name} field={field} />
+                    {renderForm(field)}
                   </>
                 )}
               </>
@@ -1663,7 +1666,7 @@ export default function ApplicationFormScreen({ navigation, route }) {
     if (hasShowWhen && show) {
       return (
         <>
-          <Field />
+          {renderFieldBody()}
         </>
       );
     }
@@ -1671,13 +1674,13 @@ export default function ApplicationFormScreen({ navigation, route }) {
     if (!hasShowWhen) {
       return (
         <>
-          <Field />
+          {renderFieldBody()}
         </>
       );
     }
   };
 
-  const GroupFields = ({ fields }) => {
+  const renderGroupFields = (fields) => {
     let groups = {};
     fields?.length > 0 &&
       fields.map((field) => {
@@ -1720,7 +1723,7 @@ export default function ApplicationFormScreen({ navigation, route }) {
                   if (field.input_type != "hidden") {
                     return (
                       <View key={field.name}>
-                        <RenderField field={field} key={field.name} />
+                        {renderField(field)}
                       </View>
                     );
                   }
@@ -1776,7 +1779,7 @@ export default function ApplicationFormScreen({ navigation, route }) {
               return <View key={field.name}>{renderField(field)}</View>;
             })} */}
           {/* <Text>{JSON.stringify(groupFields(fields))}</Text> */}
-          <GroupFields fields={fields} />
+          {renderGroupFields(fields)}
 
           {/* <Text>{JSON.stringify(loading)}</Text> */}
 
@@ -1918,6 +1921,10 @@ const Select = ({
   const [choose, setChoose] = useState(
     getValues(field.name) || field.value || null
   );
+  // `fields` can reload (pull to refresh, ANF resolved), so follow the form value
+  useEffect(() => {
+    setChoose(getValues(field.name) || field.value || null);
+  }, [field]);
   const { options } = field;
   const { contentsLabel } = useSelector((state) => state.auth);
   const getLabel = (key) => contentsLabel?.[key] || key;

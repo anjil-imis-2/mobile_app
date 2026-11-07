@@ -9344,6 +9344,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-maps@patch:react-native-maps@npm%3A1.20.0#./.yarn/patches/react-native-maps-npm-1.20.0-1e1a71b149.patch::locator=ImisBase%40workspace%3A.":
+  version: 1.20.0
+  resolution: "react-native-maps@patch:react-native-maps@npm%3A1.20.0#./.yarn/patches/react-native-maps-npm-1.20.0-1e1a71b149.patch::version=1.20.0&hash=0ec2d8&locator=ImisBase%40workspace%3A."
+  dependencies:
+    "@types/geojson": ^7946.0.13
+  peerDependencies:
+    react: ">= 17.0.1"
+    react-native: ">= 0.64.3"
+    react-native-web: ">= 0.11"
+  peerDependenciesMeta:
+    react-native-web:
+      optional: true
+  checksum: 888afce11d3b2beae3804983be331faf72af89fef4119d3c1332db9377708dbbb1f86fa5a3a895a6ba6cb4ec45aae3325e502da1fe73465807362c5fc845eace
+  languageName: node
+  linkType: hard
+
 "react-native-material-menu@npm:^2.0.0":
   version: 2.0.0
   resolution: "react-native-material-menu@npm:2.0.0"
